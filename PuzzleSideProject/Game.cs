@@ -21,6 +21,8 @@ namespace PuzzleSideProject
                 Console.Write(" ");
             }
 
+            Thread.Sleep(1000);
+
             Console.Clear();
 
             TypeOutWords("Uh...\nHello! My name is Glorfax and I will be your Narrator!\n", 100);
