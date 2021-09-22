@@ -42,44 +42,52 @@ namespace PuzzleSideProject
             }
         }
 
-        int GetInput(string description, string option1, string option2)
+        int GetInput(string description, params string[] options)
         {
             string input = "";
-            int inputReceived = 0;
+            int inputRecieved = -1;
 
-            while (inputReceived != 1 && inputReceived != 2)
-            {//Print options
-                TypeOutWords(description, 100);
-                Console.WriteLine("1. " + option1);
-                Console.WriteLine("2. " + option2);
+            while (inputRecieved == -1)
+            {
+                //Print options
+                Console.WriteLine(description);
+
+                for (int i = 0; i < options.Length; i++)
+                {
+                    Console.WriteLine((i + 1) + "." + options[i]);
+                }
                 Console.Write("> ");
 
                 //Get input from player
                 input = Console.ReadLine();
 
-                //If player selected the first option...
-                if (input == "1" || input == option1)
+                //If the player typed an int...
+                if (int.TryParse(input, out inputRecieved))
                 {
-                    //Set input received to be the first option
-                    inputReceived = 1;
+                    //...decrement the input and check if it's within the bounds of the array
+                    inputRecieved--;
+                    if (inputRecieved < 0 || inputRecieved >= options.Length)
+                    {
+                        //Set input recieved to be the default value
+                        inputRecieved = -1;
+                        //Display error message
+                        Console.WriteLine("Invalid Input");
+                        Console.ReadKey(true);
+                    }
                 }
-                //Otherwise if the player selected the second option...
-                else if (input == "2" || input == option2)
-                {
-                    //Set input received to be the second option
-                    inputReceived = 2;
-                }
-                //If neither are true...
+                //If the player didn't type an int
                 else
                 {
-                    //...display error message
+                    //Set input recieved to be the default value
+                    inputRecieved = -1;
                     Console.WriteLine("Invalid Input");
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                 }
 
                 Console.Clear();
             }
-            return inputReceived;
+
+            return inputRecieved;
         }
     }
 }
